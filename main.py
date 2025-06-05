@@ -90,8 +90,7 @@ def main():
     try:
         result = gen.get_numbers(n)
         print("\nПервые", n, "чисел (с простыми множителями только 2,3,5):")
-        for num in result:
-            print(num)
+        print(' '.join(map(str, result)))
     except Exception as e:
         print("Ошибка:", e)
 
