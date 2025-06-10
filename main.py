@@ -1,17 +1,21 @@
 class Node:
+    """Узел связного списка для очереди"""
     def __init__(self, value):
         self.value = value
         self.next = None
 
 class Queue:
+    """Очередь (FIFO) на основе связного списка"""
     def __init__(self):
         self.head = None
         self.tail = None
 
     def is_empty(self):
+        """Проверяет, пуста ли очередь"""
         return self.head is None
 
-    def enqueue(self, value): # Добавить элемент в конец очереди
+    def enqueue(self, value):
+        """Добавляет элемент в конец очереди"""
         node = Node(value)
         if self.tail:
             self.tail.next = node
@@ -19,7 +23,8 @@ class Queue:
         if not self.head:
             self.head = node
 
-    def dequeue(self): # Удалить элемент из начала очереди и вернуть его
+    def dequeue(self):
+        """Удаляет и возвращает элемент из начала очереди"""
         if self.is_empty():
             raise IndexError("Удаление из пустой очереди")
         value = self.head.value
@@ -28,21 +33,21 @@ class Queue:
             self.tail = None
         return value
 
-    def peek(self): # Вернуть начало очереди без удаления
+    def peek(self):
+        """Возвращает начало очереди без удаления"""
         if self.is_empty():
             raise IndexError("Peek из пустой очереди")
         return self.head.value
 
 class UglyNumbersGenerator:
-    # Инициализируем три очереди для множителей 2, 3 и 5
+    """Генератор 'уродливых' чисел (с множителями 2, 3, 5)"""
     def __init__(self):
         self.queue2 = Queue()
         self.queue3 = Queue()
         self.queue5 = Queue()
 
     def get_numbers(self, n):
-        # Возвращает список из первых n чисел, простые множители которых – только 2,3,5.
-        # Бросает ValueError при некорректном n.
+        """Возвращает первые n чисел с множителями 2, 3, 5"""
         if not isinstance(n, int):
             raise ValueError("n должно быть целым числом")
         if n <= 0:
@@ -64,7 +69,11 @@ class UglyNumbersGenerator:
         # Генерируем оставшиеся n-1 чисел
         while len(numbers) < n:
             # Берем наименьшее число из трех очередей
-            next_val = min(self.queue2.peek(), self.queue3.peek(), self.queue5.peek())
+            next_val = min(
+                self.queue2.peek(),
+                self.queue3.peek(),
+                self.queue5.peek()
+            )
             numbers.append(next_val)
 
             # Убираем совпадения из всех очередей и добавляем новые элементы
